@@ -23,7 +23,6 @@ android:
     - addon-google_apis-google-$ANDROID_API_LEVEL
 before_script:
   # Prepare pre-accepted licenses to not be promted at installation
-
   - yes | sdkmanager "platforms;android-29"
 script:
   - chmod +x ./gradlew
@@ -32,17 +31,17 @@ script:
 
 
 deploy:
-provider: releases
-api-key: $GENERATE_API_KEY
-file: $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/app-release.apk
-skip_cleanup: true
-name: dev-build-$TRAVIS_TAG
-body: Automatic build of $TRAVIS_BRANCH ($TRAVIS_COMMIT) built by Travis CI on $(date +'%F %T %Z').
-prerelease: true
-overwrite: true
-target_commitish: $TRAVIS_COMMIT
-on:
-  tags: true
+  provider: releases
+  api-key: $GITHUB_API_KEY
+  file: $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/app-release.apk
+  skip_cleanup: true
+  name: dev-build-$TRAVIS_TAG
+  body: Automatic build of $TRAVIS_BRANCH ($TRAVIS_COMMIT) built by Travis CI on $(date +'%F %T %Z').
+  prerelease: true
+  overwrite: true
+  target_commitish: $TRAVIS_COMMIT
+  on:
+    tags: true
 
 after_deploy:
   - rm -rf $TRAVIS_BUILD_DIR/app/build/outputs
